@@ -18,6 +18,7 @@ Makefile
 
 # --- IDE & Language Server ---
 .clangd/
+.clangd
 .cache/
 
 # --- OS Specific Junk ---
