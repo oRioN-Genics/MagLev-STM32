@@ -42,8 +42,3 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     STM32F103xB
 )
-
-# Provide the linker script
-target_link_options(${CMAKE_PROJECT_NAME} PRIVATE
-    -T${CMAKE_SOURCE_DIR}/STM32F103XX_FLASH.ld
-)
