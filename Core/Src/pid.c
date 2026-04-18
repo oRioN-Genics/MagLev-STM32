@@ -21,6 +21,9 @@ float PID_Compute(PID_Controller *pid, float current_pos) {
     float p_term = err * pid->Kp;
 
     pid->integral_error += err;
+    if (pid->integral_error > 5000.0f) pid->integral_error = 5000.0f;
+    if (pid->integral_error < -5000.0f) pid->integral_error = -5000.0f;
+    
     float i_term = pid->integral_error * pid->Ki;
 
     float d_term = (err - pid->prev_error) * pid->Kd;
