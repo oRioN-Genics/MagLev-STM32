@@ -7,6 +7,7 @@ void PWM_Init(void) {
     // timer 2 clock enable
     RCC->APB1ENR |= 1;
 
+    // tim2-ch1 is wired to PA0 
     GPIOA->CRL &= ~(0xF << 0);
     // CNF = 10 for alt-func o/p push-pull and MODE = 11 for o/p 50MHz
     GPIOA->CRL |= (0xB << 0); // 1011 = 0xB
@@ -29,7 +30,7 @@ void PWM_Init(void) {
 
 void PWM_SetDutyCycle(uint16_t duty) {
     if (duty > 999) {
-        duty 999;
+        duty = 999;
     }
 
     // write directly to capture/compare register

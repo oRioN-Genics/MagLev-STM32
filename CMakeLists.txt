@@ -25,6 +25,7 @@ add_executable(${CMAKE_PROJECT_NAME})
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/main.c
     Core/Src/pwm.c
+    Core/Src/adc.c
     Core/Src/stm32f1xx_it.c
     Core/Src/syscalls.c
     Core/Src/sysmem.c
