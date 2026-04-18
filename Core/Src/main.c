@@ -2,18 +2,20 @@
 #include "stm32f1xx.h"
 #include "pwm.h"
 #include "adc.h"
+#include "pid.h"
 #include <stdint.h>
+
+PID_Controller maglev_pid;
 
 int main (void) {
     PWM_Init();
     ADC_Init();
 
-    // PWM_SetDutyCycle(10);
+    PID_Init(&maglev_pid, 5.0f, 0.0f, 1.0f, 2000.0f);
 
     while (1) {
         uint16_t sensor_value = ADC_Read();
-        uint16_t sensor_norm_val = ((uint32_t)sensor_value * 999) / 4095;
-        // feed the normalized sensor reading to pwm
-        PWM_SetDutyCycle(sensor_norm_val);
+        float pwm_out = PID_Compute(&maglev_pid, (float)sensor_value);
+        PWM_SetDutyCycle((uint16_t)pwm_out);
     }
 }
