@@ -32,6 +32,9 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/sysmem.c
     Core/Src/system_stm32f1xx.c
     startup_stm32f103xb.s
+    Drivers/ST7789/spi.c
+    Drivers/ST7789/st7789.c
+    Drivers/ST7789/fonts.c
 )
 
 # Add include paths for CMSIS and headers
@@ -39,6 +42,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Inc
     Drivers/CMSIS/Include
     Drivers/CMSIS/Device/ST/STM32F1xx/Include
+    Drivers/ST7789
 )
 
 # Define specific STM32 chip so the headers map correctly
