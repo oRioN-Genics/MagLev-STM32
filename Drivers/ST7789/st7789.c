@@ -66,15 +66,17 @@ void ST7789_SetWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
 }
 
 void ST7789_FillScreen(uint16_t color) {
-    // Assuming a 240x240 screen, change bounds if yours is 240x320
-    ST7789_SetWindow(0, 0, 239, 239); 
+    // 1. Update the window bounds to Y-max = 319
+    ST7789_SetWindow(0, 0, 239, 319); 
     
     uint8_t color_hi = color >> 8;
     uint8_t color_lo = color & 0xFF;
 
     CS_LOW();
     DC_DATA();
-    for (uint32_t i = 0; i < 240 * 240; i++) {
+    
+    // 2. Update the loop count to cover all 76,800 pixels
+    for (uint32_t i = 0; i < 240 * 320; i++) {
         SPI_TransmitByte(color_hi);
         SPI_TransmitByte(color_lo);
     }
@@ -96,17 +98,19 @@ void ST7789_DrawChar(uint16_t x, uint16_t y, char c, uint16_t color, uint16_t bg
     CS_LOW();
     DC_DATA();
     
-    for (int col = 0; col < 5; col++) {
-        uint8_t line = Font_5x7[index][col];
-        for (int row = 0; row < 8; row++) {
-            if (line & 0x01) {
+    // THE FIX: Loop through the 8 Rows FIRST
+    for (int row = 0; row < 8; row++) {
+        // Then loop through the 5 Columns left-to-right
+        for (int col = 0; col < 5; col++) {
+            
+            // Check if the specific bit for this row is a 1
+            if (Font_5x7[index][col] & (1 << row)) {
                 SPI_TransmitByte(c_hi);
                 SPI_TransmitByte(c_lo);
             } else {
                 SPI_TransmitByte(bg_hi);
                 SPI_TransmitByte(bg_lo);
             }
-            line >>= 1;
         }
     }
     CS_HIGH();
