@@ -19,13 +19,13 @@ PID_Controller maglev_pid;
 volatile uint16_t sensor_value = 0;
 volatile float pwm_out = 0;
 
-volatile float live_kp = 29.9f;
+volatile float live_kp = 194.9f;
 volatile uint32_t ms_ticks = 0;
 volatile uint32_t last_button_time = 0;
 volatile uint32_t last_display_time = 0; // New timer for the display
 
 void Timer_Init(void) {
-    SysTick->LOAD = 8000 - 1; // 1ms tick
+    SysTick->LOAD = 4000 - 1; // 1ms tick
     SysTick->VAL = 0;
     SysTick->CTRL |= (0x7 << 0);
 }
@@ -95,7 +95,7 @@ int main (void) {
     ST7789_DrawString(10, 10, "MAGLEV TUNING", COLOR_WHITE, COLOR_BLACK);
     ST7789_DrawString(10, 80, "Use PB0/PB1 to adjust", COLOR_WHITE, COLOR_BLACK);
 
-    PID_Init(&maglev_pid, live_kp, 0.01f, 50.0f, 2350.0f);
+    PID_Init(&maglev_pid, live_kp, 0.0f, 250.0f, 2380.0f);
     Timer_Init(); // This immediately turns on the SysTick Interrupt
 
     char text_buffer[32]; 

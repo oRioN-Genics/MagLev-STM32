@@ -8,10 +8,12 @@ typedef struct {
     float Ki;
     float Kd;
 
+    float d_filtered;
     float setpoint; // target
 
     float integral_error;
     float prev_error;
+    float prev_measurement;
 
     // o/p limits
     float limit_max;
