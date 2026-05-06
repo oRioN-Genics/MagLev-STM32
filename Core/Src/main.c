@@ -107,7 +107,14 @@ int main (void) {
          if (ms_ticks - last_display_time >= 100) {
             last_display_time = ms_ticks; // Reset timer
 
-            snprintf(text_buffer, sizeof(text_buffer), "Kp:   %5.1f", live_kp);
+            // 1. Extract the whole number part (e.g., 29.9 -> 29)
+            int kp_whole = (int)live_kp;
+
+            // 2. Extract the decimal part (e.g., 29.9 - 29.0 = 0.9. Multiply by 10 -> 9)
+            int kp_decimal = (int)((live_kp - (float)kp_whole) * 10.0f);
+
+            // 3. Print them as two integers separated by a dot
+            snprintf(text_buffer, sizeof(text_buffer), "Kp: %2d.%1d", kp_whole, kp_decimal);
             ST7789_DrawString(10, 35, text_buffer, COLOR_CYAN, COLOR_BLACK);
 
             snprintf(text_buffer, sizeof(text_buffer), "Sens: %04d", sensor_value);
