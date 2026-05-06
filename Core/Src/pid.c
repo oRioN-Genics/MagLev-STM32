@@ -18,7 +18,7 @@ void PID_Init(PID_Controller *pid, float kp, float ki, float kd, float setpoint)
 
 float PID_Compute(PID_Controller *pid, float current_pos) {
     float err = pid->setpoint - current_pos;
-    float p_term = err * pid->Kp;
+    float p_term = err * pid->Kp * 1.7;
 
     pid->integral_error += err;
     if (pid->integral_error > 5000.0f) pid->integral_error = 5000.0f;

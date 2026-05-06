@@ -14,8 +14,8 @@ void PWM_Init(void) {
 
     // final freq = cpu clock / (PSC + 1) * (ARR + 1)
     // cpu clock = 8Mhz
-    TIM2->PSC = 7;
-    TIM2->ARR = 999; // now final freq is 1khz
+    TIM2->PSC = 0;
+    TIM2->ARR = 999; // now final freq is 8khz
 
     // activate PWM mode 1 
     TIM2->CCMR1 |= (0x6 << 4);
